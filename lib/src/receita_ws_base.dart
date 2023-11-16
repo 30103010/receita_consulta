@@ -1,5 +1,7 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:http/http.dart' as http;
-import 'package:xml2json/xml2json.dart' as xml;
+//import 'package:xml2json/xml2json.dart' as xml;
 import 'dart:convert';
 import 'TAtividadePrincipal.dart';
 import 'TAtividadesSecundarias.dart';
@@ -8,61 +10,72 @@ import 'TQSA.dart';
 class receita_ws {
   String _URLBase = 'https://www.receita_ws.com.br/v1/cnpj/';
 
-  String _Body;
+  String _Body = "";
 
-  int _Response;
+  int _Response = -1;
 
-  String _LastCNPJ;
+  String _LastCNPJ = "";
 
-  String _sensitive;
+  String _sensitive = "";
 
   // variables
-  String _data_situacao, _complemento, _tipo, _nome, _email, _situacao, _bairro, _logradouro, _numero, _cep, _municipio, _porte, _abertura, _natureza_juridica;
-  String _uf, _telefone, _ultima_atualizacao, _fantasia, _motivo_situacao, _situacao_especial, _data_situacao_especial, _capital_social;
-  String _cnpj, _efr;
+  late String _data_situacao,
+      _complemento,
+      _tipo,
+      _nome,
+      _email,
+      _situacao,
+      _bairro,
+      _logradouro,
+      _numero,
+      _cep,
+      _municipio,
+      _porte,
+      _abertura,
+      _natureza_juridica = "";
+  late String _uf, _telefone, _ultima_atualizacao, _fantasia, _motivo_situacao, _situacao_especial, _data_situacao_especial, _capital_social;
+  late String _cnpj, _efr;
 
-  List<TAtividadePrincipal> _atividadePrincipal;
-  List<TAtividadesSecundarias> _atividadesSecundarias;
-  List<TQSA> _qsa;
+  List<TAtividadePrincipal> _atividadePrincipal = [];
+  List<TAtividadesSecundarias> _atividadesSecundarias = [];
+  List<TQSA> _qsa = [];
 
   receita_ws() {
     clear();
-
-    _LastCNPJ = null;
-
-    _Body = null;
-
-    _Response = null;
+    _LastCNPJ = "";
+    _Body = "";
+    _Response = -1;
   }
 
   void clear() {
-    _data_situacao = null;
-    _complemento = null;
-    _tipo = null;
-    _nome = null;
-    _email = null;
-    _situacao = null;
-    _bairro = null;
-    _logradouro = null;
-    _numero = null;
-    _cep = null;
-    _municipio = null;
-    _porte = null;
-    _abertura = null;
-    _natureza_juridica = null;;
-    _uf = null;
-    _telefone = null;
-    _ultima_atualizacao = null;
-    _fantasia = null;
-    _motivo_situacao = null;
-    _situacao_especial = null;
-    _data_situacao_especial = null;
-    _capital_social = null;
+    _data_situacao = "";
+    _complemento = "";
+    _tipo = "";
+    _nome = "";
+    _email = "";
+    _situacao = "";
+    _bairro = "";
+    _logradouro = "";
+    _numero = "";
+    _cep = "";
+    _municipio = "";
+    _porte = "";
+    _abertura = "";
+    _natureza_juridica = "";
 
-    _cnpj = null;
-    _efr = null;
+    _uf = "";
+    _telefone = "";
+    _ultima_atualizacao = "";
+    _fantasia = "";
+    _motivo_situacao = "";
+    _situacao_especial = "";
+    _data_situacao_especial = "";
+    _capital_social = "";
 
-    _sensitive = null;
+    _cnpj = "";
+    _efr = "";
+
+    _sensitive = "";
   }
 
   Future searchCNPJ(String CNPJ, sensitive) async {
@@ -70,9 +83,9 @@ class receita_ws {
 
     _sensitive = sensitive.toString().toLowerCase().trim();
 
-    String _URLAccess = _URLBase+CNPJ;
+    String _URLAccess = _URLBase + CNPJ;
 
-    var response = await http.get(_URLAccess);
+    var response = await http.get(Uri.parse(_URLAccess));
 
     _Response = response.statusCode;
     _Body = response.body;
@@ -109,21 +122,26 @@ class receita_ws {
       _efr = CNPJdata['efr'];
 
       if (CNPJdata['atividade_principal'] != null) {
-        _atividadePrincipal = new List<TAtividadePrincipal>();
-        CNPJdata['atividade_principal'].forEach((v) { _atividadePrincipal.add(new TAtividadePrincipal.fromJson(v)); });
+        //_atividadePrincipal = List<TAtividadePrincipal>();
+        CNPJdata['atividade_principal'].forEach((v) {
+          _atividadePrincipal.add(new TAtividadePrincipal.fromJson(v));
+        });
       }
 
       if (CNPJdata['atividades_secundarias'] != null) {
-        _atividadesSecundarias = new List<TAtividadesSecundarias>();
-        CNPJdata['atividades_secundarias'].forEach((v) { _atividadesSecundarias.add(new TAtividadesSecundarias.fromJson(v)); });
+        //_atividadesSecundarias = new List<TAtividadesSecundarias>();
+        CNPJdata['atividades_secundarias'].forEach((v) {
+          _atividadesSecundarias.add(new TAtividadesSecundarias.fromJson(v));
+        });
       }
 
       if (CNPJdata['qsa'] != null) {
-        _qsa = new List<TQSA>();
-        CNPJdata['qsa'].forEach((v) { _qsa.add(new TQSA.fromJson(v)); });
+        //_qsa = new List<TQSA>();
+        CNPJdata['qsa'].forEach((v) {
+          _qsa.add(new TQSA.fromJson(v));
+        });
       }
     }
-
   }
 
   String getBody() {
@@ -331,7 +349,7 @@ class receita_ws {
   }
 
   String getFantasia() {
-    if ( (_fantasia == null) || (_fantasia == '') ) {
+    if ((_fantasia == null) || (_fantasia == '')) {
       _fantasia = 'IndisponĂ­vel';
     }
 
@@ -385,10 +403,10 @@ class receita_ws {
   }
 
   String getAtividadePrincipal() {
-    String retorno = null;
+    String retorno = "";
 
     for (TAtividadePrincipal node in _atividadePrincipal) {
-      retorno = node.text;
+      retorno = node.text!;
 
       break;
     }
@@ -407,10 +425,10 @@ class receita_ws {
   }
 
   String getCNAEPrincipal() {
-    String retorno = null;
+    String retorno = "";
 
     for (TAtividadePrincipal node in _atividadePrincipal) {
-      retorno = node.code;
+      retorno = node.code!;
 
       break;
     }
@@ -419,10 +437,10 @@ class receita_ws {
   }
 
   int getCNAEPrincipalNumeros() {
-    int retorno = null;
+    int retorno = -1;
 
     for (TAtividadePrincipal node in _atividadePrincipal) {
-      retorno = int.parse(node.code.replaceAll('.', '').replaceAll('-', ''));
+      retorno = int.parse(node.code!.replaceAll('.', '').replaceAll('-', ''));
 
       break;
     }
@@ -434,7 +452,7 @@ class receita_ws {
     Map<String, String> map = new Map<String, String>();
 
     for (TAtividadesSecundarias node in _atividadesSecundarias) {
-      map[node.text] = node.code;
+      map[node.text!] = node.code!;
     }
 
     return map;
@@ -444,7 +462,7 @@ class receita_ws {
     Map<String, String> map = new Map<String, String>();
 
     for (TQSA node in _qsa) {
-      map[node.nome] = node.qual;
+      map[node.nome!] = node.qual!;
     }
 
     return map;
@@ -463,5 +481,4 @@ class receita_ws {
       return _efr;
     }
   }
-
 }

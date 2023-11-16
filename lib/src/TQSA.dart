@@ -1,6 +1,6 @@
 class TQSA {
-  String qual;
-  String nome;
+  String? qual;
+  String? nome;
 
   TQSA({this.qual, this.nome});
 

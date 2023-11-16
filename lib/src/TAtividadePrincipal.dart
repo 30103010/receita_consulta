@@ -1,6 +1,6 @@
 class TAtividadePrincipal {
-  String text;
-  String code;
+  String? text;
+  String? code;
 
   TAtividadePrincipal({this.text, this.code});
 

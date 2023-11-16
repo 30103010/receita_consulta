@@ -1,6 +1,6 @@
 class TAtividadesSecundarias {
-  String text;
-  String code;
+  String? text;
+  String? code;
 
   TAtividadesSecundarias({this.text, this.code});
 
